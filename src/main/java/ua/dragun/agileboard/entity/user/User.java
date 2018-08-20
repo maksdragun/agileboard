@@ -1,26 +1,32 @@
-package ua.dragun.agileboard.entity;
+package ua.dragun.agileboard.entity.user;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.IndexDirection;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.dragun.agileboard.entity.ticket.Ticket;
 
-@Document(collection="users")
-public class User {
+import java.util.HashSet;
+import java.util.Set;
 
+
+@Document(collection = User.COLLECTION_NAME)
+public class User  {
+    public static final String COLLECTION_NAME = "users";
     @Id
     private Integer id;
-
-    @Indexed(unique = true, direction = IndexDirection.DESCENDING, dropDups = true)
     private String username;
     private String password;
-    private String name;
+    private String fullName;
 
-    public User(Integer id, String username, String password, String name) {
-        this.id = id;
+    private Set<Ticket> tickets = new HashSet<>();
+
+
+    public User() {
+    }
+
+    public User(String username, String password, String fullName) {
         this.username = username;
         this.password = password;
-        this.name = name;
+        this.fullName = fullName;
     }
 
     public Integer getId() {
@@ -47,12 +53,16 @@ public class User {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
     }
 
     @Override
@@ -61,7 +71,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
+                ", fullName='" + fullName + '\'' +
                 '}';
     }
 }
