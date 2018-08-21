@@ -7,6 +7,7 @@ import ua.dragun.agileboard.entity.ticket.Ticket;
 import ua.dragun.agileboard.service.enums.LoginStatus;
 import ua.dragun.agileboard.service.enums.TicketStatus;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -38,13 +39,13 @@ public class TicketServiceImpl implements TicketService {
         }
     @Override
     @SuppressWarnings("unchecked")
-    public List<Ticket> findByUserId(Integer id){
-        return (List<Ticket>) ticketDao.findById(Integer.toString(id)).get();
+    public List<Ticket> findByUserId(BigInteger id){
+        return (List<Ticket>) ticketDao.findById(id.toString()).get();
     }
 
     @Override
-    public void setStatus(Integer id, TicketStatus status){
-        Ticket ticket = ticketDao.findById(Integer.toString(id)).get();
+    public void setStatus(BigInteger id, TicketStatus status){
+        Ticket ticket = ticketDao.findById(id.toString()).get();
         ticket.setState(status);
         ticketDao.save(ticket);
     }
